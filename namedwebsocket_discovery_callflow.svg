@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="1000" height="722.4" viewBox="0, 0, 1250, 903">
+  <g id="Layer_1">
+    <g>
+      <path d="M241.5,3.5 L433.5,3.5 L433.5,63.5 L241.5,63.5 z" fill="#EEEEEE"/>
+      <path d="M241.5,3.5 L433.5,3.5 L433.5,63.5 L241.5,63.5 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 337, 37)">
+      <tspan x="-52.506" y="-5" font-family="HelveticaNeue" font-size="18" fill="#000000">User Agent 1</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 337, 55.5)">
+      <tspan x="-76.83" y="-3.5" font-family="HelveticaNeue" font-size="12" fill="#000000">127.0.0.1:23945 / [::1]:23945</tspan>
+    </text>
+    <path d="M337.5,63.5 L337.5,243.5" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <g>
+      <path d="M325.7,111.5 L73.5,111.5" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+      <path d="M325.7,115.1 L335.3,111.5 L325.7,107.9 z" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 200.5, 99)">
+      <tspan x="-116.034" y="-1" font-family="HelveticaNeue" font-size="12" fill="#000000">var ws = new LocalWebSocket('myservice')</tspan>
+    </text>
+    <g>
+      <path d="M529.5,3.5 L721.5,3.5 L721.5,63.5 L529.5,63.5 z" fill="#383838"/>
+      <path d="M529.5,3.5 L721.5,3.5 L721.5,63.5 L529.5,63.5 z" fill-opacity="0" stroke="#686868" stroke-width="1"/>
+    </g>
+    <path d="M625.5,63.5 L625.5,900.5" fill-opacity="0" stroke="#686868" stroke-width="1"/>
+    <g>
+      <path d="M433.5,39.5 L511.3,39.5" fill-opacity="0" stroke="#AB1500" stroke-width="5" stroke-dasharray="30,10,10,10"/>
+      <path d="M511.3,44.9 L525.7,39.5 L511.3,34.1 z" fill="#AB1500" fill-opacity="1" stroke="#AB1500" stroke-width="5" stroke-opacity="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 475, 22.5)">
+      <tspan x="-19.446" y="4.5" font-family="HelveticaNeue-Medium" font-size="12" fill="#830E00">bind to</tspan>
+    </text>
+    <g>
+      <path d="M817.5,3.5 L1009.5,3.5 L1009.5,63.5 L817.5,63.5 z" fill="#EEEEEE"/>
+      <path d="M817.5,3.5 L1009.5,3.5 L1009.5,63.5 L817.5,63.5 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 913, 37)">
+      <tspan x="-52.506" y="-5" font-family="HelveticaNeue" font-size="18" fill="#000000">User Agent 2</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 913, 55.5)">
+      <tspan x="-76.83" y="-3.5" font-family="HelveticaNeue" font-size="12" fill="#000000">127.0.0.1:10420 / [::1]:10420</tspan>
+    </text>
+    <path d="M913.5,63.5 L913.5,159.5" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <g>
+      <path d="M739.7,39.5 L817.5,39.5" fill-opacity="0" stroke="#AB1500" stroke-width="5" stroke-dasharray="30,10,10,10"/>
+      <path d="M739.7,34.1 L725.3,39.5 L739.7,44.9 z" fill="#AB1500" fill-opacity="1" stroke="#AB1500" stroke-width="5" stroke-opacity="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 775, 22.5)">
+      <tspan x="-19.446" y="4.5" font-family="HelveticaNeue-Medium" font-size="12" fill="#830E00">bind to</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 211, 149.5)">
+      <tspan x="-133.896" y="-3.5" font-family="HelveticaNeue-LightItalic" font-size="12" fill="#000000">ws.url == "ws://localhost:23945/myservice/45ea22"</tspan>
+    </text>
+    <g>
+      <path d="M337.5,123.5 L85.3,123.5" fill-opacity="0" stroke="#000000" stroke-width="2" stroke-dasharray="12,10"/>
+      <path d="M85.3,119.9 L75.7,123.5 L85.3,127.1 z" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <path d="M913.5,231.5 L913.5,900.5" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <path d="M913.5,231.5 L937.5,207.5" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <path d="M937.5,207.5 L889.5,183.5" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <path d="M889.5,183.5 L913.5,159.5" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <g>
+      <path d="M925.3,267.5 L1177.5,267.5" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+      <path d="M925.3,263.9 L915.7,267.5 L925.3,271.1 z" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 1040.5, 255)">
+      <tspan x="-116.034" y="-1" font-family="HelveticaNeue" font-size="12" fill="#000000">var ws = new LocalWebSocket('myservice')</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 1051, 305.5)">
+      <tspan x="-133.338" y="-3.5" font-family="HelveticaNeue-LightItalic" font-size="12" fill="#000000">ws.url == "ws://localhost:10420/myservice/6za352"</tspan>
+    </text>
+    <g>
+      <path d="M913.5,279.5 L1165.7,279.5" fill-opacity="0" stroke="#000000" stroke-width="2" stroke-dasharray="12,10"/>
+      <path d="M1165.7,283.1 L1175.3,279.5 L1165.7,275.9 z" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <path d="M337.5,315.5 L361.5,291.5" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <path d="M361.5,291.5 L313.5,267.5" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <path d="M313.5,267.5 L337.5,243.5" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <path d="M337.5,315.5 L337.5,900.5" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <g>
+      <path d="M337.5,393.5 L613.7,393.5" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+      <path d="M613.7,397.1 L623.3,393.5 L613.7,389.9 z" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 475, 381)">
+      <tspan x="-109.116" y="-1" font-family="HelveticaNeue" font-size="12" fill="#000000">Check for new Named WebSocket peers</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 481, 412.5)">
+      <tspan x="-82.68" y="3.5" font-family="HelveticaNeue-LightItalic" font-size="12" fill="#000000">mDNS.Browse("_ws._tcp.local")</tspan>
+    </text>
+    <g>
+      <path d="M913.5,489.5 L349.3,489.5" fill-opacity="0" stroke="#000000" stroke-width="2" stroke-dasharray="6,4"/>
+      <path d="M349.3,485.9 L339.7,489.5 L349.3,493.1 z" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 644.5, 472.5)">
+      <tspan x="-96.45" y="3.5" font-family="HelveticaNeue" font-size="12" fill="#000000">New Named WebSocket peer found</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 613, 522.5)">
+      <tspan x="-206.55" y="-10.5" font-family="HelveticaNeue-LightItalic" font-size="12" fill="#000000">mDNS.Response("myservice[6za352]._ws._tcp.local", PTR, SRV, TXT, A, AAAA )</tspan>
+    </text>
+    <g>
+      <path d="M625.5,429.5 L901.7,429.5" fill-opacity="0" stroke="#000000" stroke-width="2" stroke-dasharray="6,4"/>
+      <path d="M901.7,433.1 L911.3,429.5 L901.7,425.9 z" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 763, 417)">
+      <tspan x="-109.116" y="-1" font-family="HelveticaNeue" font-size="12" fill="#000000">Check for new Named WebSocket peers</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 769, 448.5)">
+      <tspan x="-82.68" y="3.5" font-family="HelveticaNeue-LightItalic" font-size="12" fill="#000000">mDNS.Browse("_ws._tcp.local")</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 467.522, 537.5)">
+      <tspan x="-108.792" y="3.5" font-family="HelveticaNeue" font-size="12" fill="#000000">Resolve remote Named WebSocket URL</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 463.336, 625.5)">
+      <tspan x="-113.022" y="-3.5" font-family="HelveticaNeue-LightItalic" font-size="12" fill="#000000">ws://localhost:10420/myservice/6za352/%s</tspan>
+    </text>
+    <path d="M337.5,551.5 L397.5,551.5" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+    <path d="M397.5,551.5 L397.5,601" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+    <g>
+      <path d="M397.5,601 L349.3,601" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+      <path d="M349.3,597.4 L339.7,601 L349.3,604.6 z" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <g>
+      <path d="M901.7,753.75 L337.5,753.75" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+      <path d="M901.7,757.35 L911.3,753.75 L901.7,750.15 z" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 631, 743.75)">
+      <tspan x="-129.234" y="-3.5" font-family="HelveticaNeue" font-size="12" fill="#000000">Create new peer Named WebSocket connection</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 625, 791.75)">
+      <tspan x="-205.818" y="-3.5" font-family="HelveticaNeue-LightItalic" font-size="12" fill="#000000">peerWS == new WebSocket("ws://localhost:10420/myservice/6za352/45ea22")</tspan>
+    </text>
+    <g>
+      <path d="M913.5,765.75 L349.3,765.75" fill-opacity="0" stroke="#000000" stroke-width="2" stroke-dasharray="12,10"/>
+      <path d="M349.3,762.15 L339.7,765.75 L349.3,769.35 z" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <g>
+      <path d="M1.5,3.5 L145.5,3.5 L145.5,63.5 L1.5,63.5 z" fill="#B7E2FF"/>
+      <path d="M1.5,3.5 L145.5,3.5 L145.5,63.5 L1.5,63.5 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 73, 37)">
+      <tspan x="-31.5" y="-5" font-family="HelveticaNeue" font-size="18" fill="#001F82">Client A</tspan>
+    </text>
+    <g>
+      <path d="M1105.5,3.5 L1249.5,3.5 L1249.5,63.5 L1105.5,63.5 z" fill="#B7E2FF"/>
+      <path d="M1105.5,3.5 L1249.5,3.5 L1249.5,63.5 L1105.5,63.5 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 1177, 37)">
+      <tspan x="-31.833" y="-5" font-family="HelveticaNeue" font-size="18" fill="#001F82">Client B</tspan>
+    </text>
+    <path d="M1177.5,63.5 L1177.5,900.5" fill-opacity="0" stroke="#001F82" stroke-width="2"/>
+    <path d="M73.5,63.5 L73.5,900.5" fill-opacity="0" stroke="#001F82" stroke-width="2"/>
+    <text transform="matrix(1, 0, 0, 1, 477.228, 164.5)">
+      <tspan x="-117.888" y="-3.5" font-family="HelveticaNeue" font-size="12" fill="#000000">Register new Local Named Websocket Peer</tspan>
+    </text>
+    <path d="M337.5,170.75 L397.5,170.75" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+    <path d="M397.5,170.75 L397.5,220.25" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+    <g>
+      <path d="M397.5,220.25 L349.3,220.25" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+      <path d="M349.3,216.65 L339.7,220.25 L349.3,223.85 z" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 495.478, 195)">
+      <tspan x="-86.7" y="3.5" font-family="HelveticaNeue-LightItalic" font-size="12" fill="#000000">myservice[45ea22]._ws._tcp.local</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 775.522, 308.5)">
+      <tspan x="-117.888" y="-3.5" font-family="HelveticaNeue" font-size="12" fill="#000000">Register new Local Named Websocket Peer</tspan>
+    </text>
+    <path d="M913.5,314.75 L853.5,314.75" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+    <path d="M853.5,314.75 L853.5,364.25" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+    <g>
+      <path d="M853.5,364.25 L901.7,364.25" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+      <path d="M901.7,367.85 L911.3,364.25 L901.7,360.65 z" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 752.522, 339)">
+      <tspan x="-86.142" y="3.5" font-family="HelveticaNeue-LightItalic" font-size="12" fill="#000000">myservice[6za352]._ws._tcp.local</tspan>
+    </text>
+    <g>
+      <path d="M1165.7,830.75 L913.5,830.75" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+      <path d="M1165.7,834.35 L1175.3,830.75 L1165.7,827.15 z" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 1049.5, 818.25)">
+      <tspan x="-90.57" y="-1" font-family="HelveticaNeue" font-size="12" fill="#000000">Fire 'connect' event at 'ws' object</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 1072, 863.75)">
+      <tspan x="-102" y="-10.5" font-family="HelveticaNeue-LightItalic" font-size="12" fill="#000000">ws.onconnect = function(evt) {</tspan>
+      <tspan x="-102" y="3.5" font-family="HelveticaNeue-LightItalic" font-size="12" fill="#000000">  // evt.target == peerWS[server]</tspan>
+      <tspan x="-102" y="17.5" font-family="HelveticaNeue-LightItalic" font-size="12" fill="#000000">}</tspan>
+    </text>
+    <g>
+      <path d="M85.3,830.75 L337.5,830.75" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+      <path d="M85.3,827.15 L75.7,830.75 L85.3,834.35 z" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 200.5, 818.25)">
+      <tspan x="-90.57" y="-1" font-family="HelveticaNeue" font-size="12" fill="#000000">Fire 'connect' event at 'ws' object</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 223, 863.75)">
+      <tspan x="-102" y="-10.5" font-family="HelveticaNeue-LightItalic" font-size="12" fill="#000000">ws.onconnect = function(evt) {</tspan>
+      <tspan x="-102" y="3.5" font-family="HelveticaNeue-LightItalic" font-size="12" fill="#000000">  // evt.target == peerWS[client]</tspan>
+      <tspan x="-102" y="17.5" font-family="HelveticaNeue-LightItalic" font-size="12" fill="#000000">}</tspan>
+    </text>
+    <path d="M289.5,900.5 L385.5,900.5" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+    <path d="M577.5,900.5 L673.5,900.5" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+    <path d="M865.5,900.5 L961.5,900.5" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+    <path d="M25.5,900.5 L121.5,900.5" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+    <path d="M1129.5,900.5 L1225.5,900.5" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+    <text transform="matrix(1, 0, 0, 1, 625, 37)">
+      <tspan x="-83.016" y="-5" font-family="HelveticaNeue" font-size="18" fill="#FFFFFF">Local Multicast Addr</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 625, 55.5)">
+      <tspan x="-70.158" y="-3.5" font-family="HelveticaNeue" font-size="12" fill="#FFFFFF">127.0.0.1:5352 / [::1]:5352</tspan>
+    </text>
+    <g>
+      <path d="M901.7,664.5 L337.5,664.5" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+      <path d="M901.7,668.1 L911.3,664.5 L901.7,660.9 z" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 631, 654.5)">
+      <tspan x="-144.24" y="-3.5" font-family="HelveticaNeue" font-size="12" fill="#000000">Create new broadcast Named WebSocket connection</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 625, 702.5)">
+      <tspan x="-208.578" y="-3.5" font-family="HelveticaNeue-LightItalic" font-size="12" fill="#000000">broadcastWS == new WebSocket("ws://localhost:10420/myservice/6za352/%s")</tspan>
+    </text>
+    <g>
+      <path d="M913.5,676.5 L349.3,676.5" fill-opacity="0" stroke="#000000" stroke-width="2" stroke-dasharray="12,10"/>
+      <path d="M349.3,672.9 L339.7,676.5 L349.3,680.1 z" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="2" stroke-opacity="1"/>
+    </g>
+  </g>
+</svg>

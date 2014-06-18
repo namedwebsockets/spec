@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Named WebSockets</title>
+		<script src="https://www.w3.org/Tools/respec/respec-w3c-common" class="remove"></script>
+		<script class='remove'>
+			/**/
+			var respecConfig = {
+				specStatus: 'unofficial',
+				shortName: 'namedwebsockets',
+				subtitle: 'Living Document',
+				edDraftURI: 'http://namedwebsockets.github.io/spec/',
+				previousMaturity: false,
+				//previousURI: 'http://www.w3.org/TR/2013/WD-appmanifest-20131217/',
+				editors: [{
+					name: 'Contributors list available on GitHub',
+					url:"https://github.com/namedwebsockets/spec/graphs/contributors"
+				}],
+				wg: 'Device APIs (DAP) Working Group',
+				wgURI: 'http://www.w3.org/2008/dap/',
+				wgPublicList: 'public-device-apis',
+				wgPatentURI: 'http://www.w3.org/2004/01/pp-impl/42538/status',
+				noLegacyStyle: true,
+				otherLinks: [
+					{
+						key: 'Repository',
+						data: [{
+							value: 'We are on Github.',
+							href: 'https://github.com/namedwebsockets'
+						}, {
+							value: 'File a bug.',
+							href: 'https://github.com/namedwebsockets/spec/issues'
+						}, {
+							value: 'Commit history.',
+							href: 'https://github.com/namedwebsockets/commits/gh-pages'
+						}]
+					},
+					{
+						key: "Implementation status",
+						data: [{
+							value: "Standalone implementation (proof-of-concept)",
+							href: "https://github.com/namedwebsockets/namedwebsockets"
+						}]
+					}
+				],
+				localBiblio: {}
+			};
+		</script>
+		<style>
+			/* Add addition spacing to <ol> and <ul> for rule definition */
+			ol.rule li, ul.rule li { padding:0.6em; }
+
+			/* Define custom WebIDL section formatting */
+			pre.widl { border: solid thin; background: #EEEEEE; color: black; padding: 0.5em 1em; position: relative; }
+			pre.widl :link, pre.widl :visited { color: #000; background: transparent; }
+			pre.widl:before { content: "IDL"; font: bold small sans-serif; padding: 0.5em; background: white; position: absolute; top: 0; margin: -1px 0 0 -4em; width: 1.5em; border: thin solid; border-radius: 0 0 0 0.5em }
+
+			var { color: #005A9C; }
+
+			img { max-width: 100%; }
+		</style>
+	</head>
+	<body>
+		<section id='abstract'>
+			<p>
+				This specification defines a bootstrap mechanism for creating, binding and connecting WebSocket peers together on a local machine or on a local network that share the same service name. Named WebSockets can be created from both web applications and native applications to create communications bridges between and among themselves.
+			</p>
+			<p>
+				This specification introduces the <a><code>LocalWebSocket</code></a> and <a><code>NetworkWebSocket</code></a> interfaces and the algorithms required to create, bind, advertise and discover other WebSocket peers on the local machine and the local network.
+			</p>
+			<p>
+				By enabling different peers on local machines and local networks to discover and connect with each other we enable new sharing channels to be established. The following diagram illustrates some of the high-level sharing enabled by Named WebSockets.
+			</p>
+			<p align="center">
+				<a href="namedwebsocket_conceptual_diagram.svg">
+					<img src="namedwebsocket_conceptual_diagram.svg" title="Named WebSockets conceptual connections diagram">
+				</a>
+			</p>
+
+
+		</section>
+		<section id="sotd">
+			<p>
+				Implementors need to be aware that this specification is extremely
+				unstable. <strong>Implementors who are not taking part in the
+				discussions will find the specification changing out from under them in
+				incompatible ways.</strong> Vendors interested in implementing this
+				specification before it eventually reaches the Candidate Recommendation
+				phase should <a href="https://github.com/namedwebsockets/spec/issues">subscribe
+				to the repository on GitHub</a> and take part in the discussions.
+			</p>
+		</section>
+		<section class="informative">
+			<h2>Usage examples</h2>
+			<p>
+				This section shows how developers can make use of the various features
+				of this specification.
+			</p>
+			<section class="informative">
+				<h3>
+					Creating local machine broadcast channels
+				</h3>
+				<p>
+					The following shows how a web page can create a local machine broadcast channel.
+				</p>
+				<pre class="example highlight javascript" title="local machine channel creation">
+var ws = new LocalWebSocket("com.example.bootstrapservice");
+</pre>
+				<p>
+					The returned object implements the <a class="externalDFN" href="http://www.w3.org/TR/websockets/#websocket"><code>WebSocket</code></a> interface and thus can be used as a normal WebSocket object. Sending and receiving directly on the returned object broadcasts messages to all local machine peers.
+				</p>
+				<pre class="example highlight javascript" title="local machine broadcasting">
+ws.addEventListener('open', function(evt) {
+	ws.send("New broadcast message sent on local service 'com.example.bootstrapservice'");
+}, false);
+
+ws.addEventListener('message', function(evt) {
+	console.log("Broadcast message received on local service 'com.example.bootstrapservice'");
+}, false);
+</pre>
+				<p>
+					Whenever another peer registers on the local machine that shares the same service name (i.e. &quot;com.example.bootstrapservice&quot;) and an <a>entangled websocket connection</a> has been established between these peers, then a <code>connect</code> event containing a WebSocket connection toward the newly discovered peer will be fired on the root object.
+				</p>
+				<pre class="example highlight javascript" title="new local machine peer detected">
+ws.addEventListener('connect', function(evt) {
+	console.log("New peer detected on local service 'com.example.bootstrapservice'");
+
+	var peerWebSocket = evt.target;
+
+	/* Use peerWebSocket object for direct p2p communication with newly established WebSocket peer */
+}, false);
+</pre>
+      </section>
+			<section class="informative">
+				<h3>
+					Creating local network broadcast channels
+				</h3>
+				<p>
+					The following shows how a web page can create a local network broadcast channel.
+				</p>
+				<pre class="example highlight javascript" title="local network channel creation">
+var ws = new NetworkWebSocket("com.example.bootstrapservice");
+</pre>
+      </section>
+				<p>
+					The returned object implements the <a class="externalDFN" href="http://www.w3.org/TR/websockets/#websocket"><code>WebSocket</code></a> interface and thus can be used as a normal WebSocket object. Sending and receiving directly on the returned object broadcasts messages to all local network peers.
+				</p>
+				<pre class="example highlight javascript" title="local network broadcasting">
+ws.addEventListener('open', function(evt) {
+	ws.send("New broadcast message sent on network service 'com.example.bootstrapservice'");
+}, false);
+
+ws.addEventListener('message', function(evt) {
+	console.log("Broadcast message received on network service 'com.example.bootstrapservice'");
+}, false);
+</pre>
+				<p>
+					Whenever another peer registers on the local network or the local machine (created via the <code>NetworkWebSocket</code> interface) that shares the same service name (i.e. &quot;com.example.bootstrapservice&quot;) and an <a>entangled websocket connection</a> has been established between these peers, then a <code>connect</code> event containing a WebSocket connection toward the newly discovered peer will be fired on the root object.
+				</p>
+				<pre class="example highlight javascript" title="new local network peer detected">
+ws.addEventListener('connect', function(evt) {
+	console.log("New peer detected on network service 'com.example.bootstrapservice'");
+
+	var peerWebSocket = evt.target;
+
+	/* Use peerWebSocket object for direct p2p communication with newly established WebSocket peer */
+}, false);
+</pre>
+		</section>
+		<section class="informative">
+			<h2>Use cases and requirements</h2>
+
+			<p>Named WebSockets are useful in a variety of collaborative local device and local network scenarios:</p>
+
+			<ul>
+				<li>Discover matching peer services on the local device and/or the local network.</li>
+				<li>Create full-duplex communications channels between native applications and web applications.</li>
+				<li>Create full-duplex communication channels between web pages hosted on different domains.</li>
+				<li>Create initial local session signalling channels for establishing P2P sessions (via e.g. [WebRTC](#examples)).</li>
+				<li>Create low latency local network multiplayer signalling channels for games.</li>
+				<li>Enable collaborative editing, sharing and other forms of communication between web pages and applications on the local device and/or the local network.</li>
+			</ul>
+
+		</section>
+		<section>
+			<h2>Conformance</h2>
+
+			<p>
+				Requirements phrased in the imperative as part of algorithms (such as "strip any leading space characters" or
+				"return false and abort these steps") are to be interpreted with the meaning of the key word ("must", "should",
+				"may", etc) used in introducing the algorithm.
+			</p>
+			<p>
+				Some conformance requirements are phrased as requirements on attributes, methods or objects. Such requirements
+				are to be interpreted as requirements on user agents.
+			</p>
+			<p>
+				Conformance requirements phrased as algorithms or specific steps MAY be implemented in any manner, so long as
+				the end result is equivalent. (In particular, the algorithms defined in this specification are intended to be
+				easy to follow, and not intended to be performant.)
+			</p>
+			<p>
+				The only conformance class defined by this specification is a <dfn>user agent</dfn>.
+			</p>
+			<p>
+				User agents MAY impose implementation-specific limits on otherwise unconstrained inputs, e.g. to prevent denial
+				of service attacks, to guard against running out of memory, or to work around platform-specific limitations.
+			</p>
+			<p>
+				When support for a feature is disabled (e.g. as an emergency measure to mitigate a security problem, or to aid
+				in development, or for performance reasons), user agents MUST act as if they had no support for the feature
+				whatsoever, and as if the feature was not mentioned in this specification. For example, if a particular feature
+				is accessed via an attribute in a Web IDL interface, the attribute itself would be omitted from the objects
+				that implement that interface - leaving the attribute on the object but making it return null or throw an
+				exception is insufficient.
+			</p>
+
+			<section>
+				<h3>Dependencies</h3>
+
+				<p>
+					This specification relies on other underlying specifications:
+				</p>
+
+        <dl>
+          <dt>
+            The WebSocket API
+          </dt>
+          <dd>
+						The interfaces introduced in this specification are required to implement the WebSocket API. [[!websockets]]
+          </dd>
+				</dl>
+			</section>
+		</section>
+		<section>
+			<h2>Terminology</h2>
+
+			<p>
+				The construction "a <code>Foo</code> object", where <code>Foo</code> is actually an interface, is sometimes
+				used instead of the more accurate "an object implementing the interface <code>Foo</code>".
+			</p>
+			<p>
+				The term DOM is used to refer to the API set made available to scripts in Web applications, and does not
+				necessarily imply the existence of an actual <code>Document</code> object or of any other <code>Node</code>
+				objects as defined in the DOM Core specifications. [[!DOM4]]
+			</p>
+			<p>
+				An IDL attribute is said to be <em>getting</em> when its value is being retrieved (e.g. by author script), and
+				is said to be <em>setting</em> when a new value is assigned to it.
+			</p>
+
+			<p>
+				A <dfn>valid channel name</dfn> is a string used to federate peers that contains from 3 to 128 Unicode characters
+        in the ranges U+002D to U+002E, U+0030 to U+0039, U+0041 to U+005A, U+005F, U+0061 to U+007A.
+			</p>
+
+			<p>
+				The <dfn>local multicast address</dfn> is a UDP socket bound to both the IPv4 loopback address <code>127.0.0.1:5352</code> and the IPv6 loopback address <code>[::1]:5352</code>.
+			</p>
+
+			<p>
+				The <dfn>network multicast address</dfn> is a UDP socket bound to both the IPv4 address <code>224.0.0.251:5353</code> and the IPv6 address <code>[FF02::FB]:5353</code> (also known as the standard [[!MDNS]] listener endpoints).
+			</p>
+
+			<p>
+				A <a>user agent</a> MUST listen for new Named WebSocket DNS-SD [[!DNS-SD]] broadcasts from other <a title="user agent">user agents</a> on both the <a>local multicast address</a> and the <a>network multicast address</a>. Additionally, a <a>user agent</a> MUST managing the advertising of locally-created Named WebSockets objects via [[!DNS-SD]] from a random locally-bound port toward either the <a>local multicast address</a> or the <a>network multicast address</a> according to the algorithms defined in this specification.
+			</p>
+
+			<p class="note">
+				All implementations MUST use the <code>SO_REUSEPORT</code> and <code>SO_REUSEADDR</code> options so all
+				<a title="user agent">user agents</a> are able to bind to the same <a>local multicast address</a> and <a>network multicast address</a>. Additional guidelines to avoid conflicts between multiple mDNS responders running on the same machine are provided and MUST be followed by implementations from <a class="externalDFN" href="http://tools.ietf.org/html/rfc6762#page-43">Considerations for Multiple Responders on the Same Machine</a>. [[!MDNS]]
+			</p>
+
+			<p>
+				A <dfn>local WebSocket URL</dfn> is a standard WebSocket URL with a <var>scheme</var> of <code>ws</code>, a <var>host</var> of <code>localhost</code>, a <var>port</var> and a <var>path</var> component that identifies a single peer registered or discovered on the <a>local multicast address</a>.
+			</p>
+
+			<p>
+				A <dfn>network WebSocket URL</dfn> is a standard WebSocket URL with a <var>scheme</var> of <code>ws</code>, a <var>host</var> corresponding to a resolvable host name on the local network, a <var>port</var> and a <var>path</var> component that identifes a single peer registered or discovered on the <a>network multicast address</a>.
+			</p>
+
+			<p>
+				The <dfn>list of active local WebSockets</dfn> is a dynamic list that contains active <code>LocalWebSocket</code> objects created by the <a>user agent</a>.
+			</p>
+
+			<p>
+				The <dfn>list of active network WebSockets</dfn> is a dynamic list that contains active <code>NetworkWebSocket</code> objects created by the <a>user agent</a>.
+			</p>
+
+			<p>Each Named WebSocket object (a <code>LocalWebSocket</code> object or a <code>NetworkWebSocket</code> object) has its own <dfn>peer list</dfn> that tracks WebSocket connections from itself to remote Named WebSocket peers.</p>
+
+			<p>
+				The <dfn>local broadcast list</dfn> is a dynamic map of channel name to zero or more peer <code>WebSocket</code> connections. When a new Named WebSocket service is detected on the <a>local multicast address</a> then it will be added to this list.
+			</p>
+
+			<p>
+				The <dfn>network broadcast list</dfn> is a dynamic map of channel name to zero or more peer <code>WebSocket</code> connections. When a new Named WebSocket service is detected on the <a>network multicast address</a> then it will be added to this list.
+			</p>
+
+		</section>
+
+		<section>
+			<h2>The <code>LocalWebSocket</code> interface</h2>
+
+			<pre class="widl">
+[Constructor(DOMString channel)]
+interface <dfn id="localwebsocket">LocalWebSocket</dfn> : <a class="externalDFN" href="http://www.w3.org/TR/websockets/#the-websocket-interface">WebSocket</a> {
+  // peer establishment
+           attribute <a class="externalDFN" href="http://www.w3.org/html/wg/drafts/html/master/webappapis.html#eventhandler">EventHandler</a> onconnect;
+}
+</pre>
+
+			<p>
+				The <dfn id="dom-localwebsocket" title="dom-LocalWebSocket"><code>LocalWebSocket(channel)</code></dfn> constructor takes one argument, channel, that specifies the local machine service name to which to connect.
+			</p>
+
+			<p>
+				When the <code>LocalWebSocket()</code> constructor is invoked, the UA must run these steps:
+			</p>
+
+			<ol class="rule">
+
+				<li>
+					If <var>channel</var> is not a <a>valid channel name</a> then throw a <code>SyntaxError</code> exception and abort these steps.
+				</li>
+
+				<li>
+					Let <var>peer id</var> be a new random globally-unique identifer for the new Local Named WebSocket peer.
+				</li>
+
+				<li>
+					Let <var>url</var> be a new <a>local WebSocket URL</a>, setting its <var>path</var> component to the string &quot;<code>/</code>&quot; followed by <var>channel</var>, followed by &quot;<code>/</code>&quot;, followed by <var>peer id</var>, followed by &quot;<code>/</code>&quot;, followed by a <var>remote peer id placeholder</var> &quot;<code>%s</code>&quot; (e.g. <code>/myservicename/fa4c372c-f557-11e3-981d-b2227cce2b54/%s</code>).
+
+					<p class="note">
+						<a title="user agent">User agents</a> MAY define the <var>path</var> component as they wish provided the generated <var>path</var> is globally unique and a <var>remote peer id placeholder</var> (&quot;<code>%s</code>&quot;) is included in the resulting <var>path</var> (i.e. <code>/fa4c372c-f557-11e3-981d-b2227cce2b54/myservicename?%s</code> or <code>/services?id=fa4c372c-f557-11e3-981d-b2227cce2b54&peerId=%s&serviceName=myservicename</code> are also valid <var>path</var> components).
+					<p>
+				</li>
+
+				<li>
+					Let <var>new local WebSocket</var> be a new WebSocket object - representing a new Local WebSocket peer - passing in <var>url</var> as the first and only argument to the WebSocket API constructor. [[!websockets]]
+				</li>
+
+				<li>Return <var>new local WebSocket</var> and run the remaining steps asynchronously (without blocking scripts).
+
+				<li>Add <var>new local WebSocket</var> to the <a>list of active local WebSockets</a>.</li>
+
+				<li>
+					Let <var>service records</var> be a collection of the following DNS records corresponding to the <var>new local WebSocket</var> to form a [[!DNS-SD]] advertisement.
+
+					<ol class="rule">
+						<li>
+							Create a new DNS PTR record and set its value to the string <var>channel</var>, followed by &quot;<code>[</code>&quot;, followed by <var>peer id</var>, followed by &quot;<code>]</code>&quot;, followed by &quot;<code>._ws._tcp.local.</code>&quot;. e.g. <pre class="example">_ws._tcp.local.  10  IN  PTR  myservicename[fa4c372c...]._ws._tcp.local.</pre>
+						</li>
+						<li>
+							Create a new DNS SRV record and set its port value to the newly created <a>local WebSocket URL</a>'s <var>port</var> component and its host value to the newly created <a>local WebSocket URL</a>'s <var>host</var> value. e.g. <pre class="example">myservicename[fa4c372c...]._ws._tcp.local. 10 IN SRV 10 1 32541 localhost</pre>
+						</li>
+						<li>
+							Create a new DNS TXT record and set its value to the string &quot;<code>path=</code>&quot; followed by the newly created <a>local WebSocket URL</a>'s <var>path</var> component. e.g. <pre class="example">myservicename[fa4c372c...]._ws._tcp.local. 10 IN TXT "path=/myservicename/fa4c372c.../%s"</pre>
+						</li>
+					</ol>
+
+				</li>
+
+				<li>
+					<a href="#peer-discovery">Search and connect other local-machine-based Named WebSocket peers</a> with the same <a>valid channel name</a>.
+				</li>
+
+				<li>
+					Advertise <var>service records</var> to other <a title="user agent">user agents</a> via the <a>local multicast address</a> and respond with <var>service records</var> when an mDNS query is received at the <a>local multicast address</a> from another <a>user agent</a> for <code>_ws._tcp.local.</code> services according to the algorithms defined in [[!MDNS]].
+				</li>
+
+			</ol>
+
+			<p>
+				The <a title="dom-localwebsocket"><code>LocalWebSocket</code> constructor</a> must be visible when the <a href="http://dev.w3.org/html5/spec/webappapis.html#script's-global-object">script's global object</a> is either a <code>Window</code> object or an object implementing the <code>WorkerUtils</code> interface.
+			</p>
+		</section>
+		<section>
+			<h2>The <code>NetworkWebSocket</code> interface</h2>
+
+			<pre class="widl">
+[Constructor(DOMString channel)]
+interface <dfn id="networkwebsocket">NetworkWebSocket</dfn> : <a class="externalDFN" href="http://www.w3.org/TR/websockets/#the-websocket-interface">WebSocket</a> {
+  // peer establishment
+           attribute <a class="externalDFN" href="http://www.w3.org/html/wg/drafts/html/master/webappapis.html#eventhandler">EventHandler</a> onconnect;
+}
+</pre>
+
+			<p>
+				The <dfn id="dom-networkwebsocket" title="dom-NetworkWebSocket"><code>NetworkWebSocket(channel)</code></dfn> constructor takes one argument, channel, that specifies the local network service name to which to connect.
+			</p>
+
+			<p>
+				When the <code>NetworkWebSocket()</code> constructor is invoked, the UA must run these steps:
+			</p>
+
+			<ol class="rule">
+
+				<li>
+					If <var>channel</var> is not a <a>valid channel name</a> then throw a <code>SyntaxError</code> exception and abort these steps.
+				</li>
+
+				<li>
+					Let <var>peer id</var> be a new random globally-unique identifer for the new Network Named WebSocket peer.
+				</li>
+
+				<li>
+					Let <var>url</var> be a new <a>network WebSocket URL</a>, setting its <var>path</var> component to the string &quot;<code>/</code>&quot; followed by <var>channel</var>, followed by &quot;<code>/</code>&quot;, followed by <var>peer id</var>, followed by &quot;<code>/</code>&quot;, followed by a <var>remote peer id placeholder</var> &quot;<code>%s</code>&quot; (e.g. <code>/myservicename/j343h93x/%s</code>).
+
+					<p class="note">
+						<a title="user agent">User agents</a> MAY define the <var>path</var> component as they wish provided the generated <var>path</var> is globally unique and a <var>remote peer id placeholder</var> (&quot;<code>%s</code>&quot;) is included in the resulting <var>path</var> (i.e. <code>/j343h93x/myservicename?%s</code> or <code>/services?id=j343h93x&peerId=%s&serviceName=myservicename</code> are also valid <var>path</var> components).
+					<p>
+				</li>
+
+				<li>
+					Let <var>new network WebSocket</var> be a new WebSocket object - representing a new Network WebSocket peer - passing in <var>url</var> as the first and only argument to the WebSocket API constructor. [[!websockets]]
+				</li>
+
+				<li>Return <var>new network WebSocket</var> and run the remaining steps asynchronously (without blocking scripts).
+
+				<li>Add <var>new network WebSocket</var> to the <a>list of active network WebSockets</a>.</li>
+
+				<li>
+					Let <var>service records</var> be a collection of the following DNS records corresponding to the <var>new network WebSocket</var> to form a [[!DNS-SD]] advertisement.
+
+					<ol class="rule">
+						<li>
+							Create a new DNS PTR record and set its value to the string <var>channel</var>, followed by &quot;<code>[</code>&quot;, followed by <var>peer id</var>, followed by &quot;<code>]</code>&quot;, followed by &quot;<code>._ws._tcp.local.</code>&quot;. e.g. <pre class="example">_ws._tcp.local.  10  IN  PTR  myservicename[j343h93x]._ws._tcp.local.</pre>
+						</li>
+						<li>
+							Create a new DNS SRV record and set its port value to the newly created <a>network WebSocket URL</a>'s <var>port</var> component and its host value to the newly created <a>network WebSocket URL</a>'s <var>host</var> value. e.g. <pre class="example">myservicename[j343h93x]._ws._tcp.local. 10 IN SRV 10 1 23956 MyComputer.local.</pre>
+						</li>
+						<li>
+							Create a new DNS TXT record and set its value to the string &quot;<code>path=</code>&quot; followed by the newly created <a>network WebSocket URL</a>'s <var>path</var> component. e.g. <pre class="example">myservicename[j343h93x]._ws._tcp.local. 10 IN TXT "path=/myservicename/j343h93x/%s"</pre>
+						</li>
+						<li>
+							Create a new DNS A record and set its value to the resolved IPv4 address of the current machine's <var>host</var>. e.g. <pre class="example">MyComputer.local.  10  IN  A  10.112.0.223</pre>
+						</li>
+						<li>
+							Create a new DNS AAAA record and set its value to the resolved IPv6 address of the current machine's <var>host</var>. e.g. <pre class="example">MyComputer.local.  10  IN  AAAA  fe80::7aca:39ff:feb4:42c1</pre>
+						</li>
+					</ol>
+
+				</li>
+
+				<li>
+					<a href="#peer-discovery">Search and connect other local-network-based Named WebSocket peers</a> with the same <a>valid channel name</a>.
+				</li>
+
+				<li>
+					Advertise <var>service records</var> to other <a title="user agent">user agents</a> via the <a>network multicast address</a> module and respond with <var>service records</var> when an mDNS query is received at the <a>network multicast address</a> from another <a>user agent</a> for <code>_ws._tcp.local.</code> services according to the algorithms defined in [[!MDNS]].
+				</li>
+
+			</ol>
+
+			<p>
+				The <a title="dom-networkwebsocket"><code>NetworkWebSocket</code> constructor</a> must be visible when the <a href="http://dev.w3.org/html5/spec/webappapis.html#script's-global-object">script's global object</a> is either a <code>Window</code> object or an object implementing the <code>WorkerUtils</code> interface.
+			</p>
+
+		</section>
+
+		<section>
+			<h2>
+				Peer management
+			</h2>
+
+			<section class="informative">
+				<h3>
+					Example call flow
+				</h3>
+
+				<p class="issue">@TBD</p>
+
+				<p align="center">
+					<a href="namedwebsocket_discovery_callflow.svg">
+						<img src="namedwebsocket_discovery_callflow.svg" title="Example peer discovery and connection establishment call flow">
+					</a>
+				</p>
+
+			</section>
+
+			<section>
+				<h3>
+					Peer discovery
+				</h3>
+
+				<p>
+					A <a>user agent</a> MUST actively search for new Named WebSocket peers via both the <a>local multicast address</a> and the <a>network multicast address</a>.
+				</p>
+
+				<p>When a Named WebSocket peer is discovered as a result of running an mDNS Query for <code>_ws._tcp.local.</code> services against either the <a>local multicast address</a> or the <a>network multicast address</a> then a <a>user agent</a> MUST run the following steps:
+				</p>
+
+				<ol class="rule">
+
+					<li>
+						Let <var>service name</var> be the the result of running the <a>rule to obtain an advertised Named WebSocket service name</a> against the discovered DNS records.
+					</li>
+
+					<li>
+						Let <var>remote peer id</var> be the the result of running the <a>rule to obtain an advertised Named WebSocket service id</a> against the discovered DNS records.
+					</li>
+
+					<li>
+						Let <var>service URL</var> be a <a>WebSocket URL</a> from the result of running the <a>rule to obtain an advertised Named WebSocket service URL</a> against the discovered DNS records.
+					</li>
+
+					<li>If the discovered DNS records were obtained via the <a>local multicast address</a> then let <var>active WebSocket connections</var> be the <a>list of active local WebSockets</a>. Otherwise, let <var>active WebSocket connections</var> be the <a>list of active network WebSockets</a>.
+
+					<li>
+						For each <var>active WebSocket</var> in <var>active WebSocket connections</var> do the following:
+
+						<ol class="rule">
+
+							<li>If <var>service name</var> does not match the service name used to create <var>active WebSocket</var> then abort any remaining sub-steps and continue at the next available <var>active WebSocket</var>.</li>
+
+							<li>
+								If <var>remote peer id</var> is already bound in the <var>active WebSocket</var>'s <a>peer list</a> then abort any remaining sub-steps and continue at the next available <var>active WebSocket</var>.
+							</li>
+
+							<li>
+								Let <var>peering URL</var> be the string <var>service URL</var>, replacing the <var>remote peer id placeholder</var> (i.e. &quot;<code>%s</code>&quot;) in the <var>service URL</var> with the peer id of the <var>active WebSocket</var>.
+							</li>
+
+							<li>
+								Let <var>client WebSocket</var> be a new <code>WebSocket</code> object with a URL of <var>peering URL</var>.
+							</li>
+
+							<li>
+								Add <var>client WebSocket</var> to <var>active WebSocket</var>'s <a>peer list</a>.
+							</li>
+
+							<li>
+								Let <var>broadcast WebSocket</var> be a new <code>WebSocket</code> object with a URL of <var>service URL</var>.
+							</li>
+
+							<li>
+								Add <var>broadcast WebSocket</var> to the appropriate <a>broadcast list</a> against the resolved <var>service name</var>.
+							</li>
+
+							<li>
+								Let <var>new peer connection event</var> be a simple event with the event type <code>connect</code>, a <code>target</code> of <var>client WebSocket</var>, which does not bubble, is not cancelable, and has no default action.
+							</li>
+
+							<li>
+								Fire <var>new peer connection event</var> at <var>active WebSocket</var>.
+							</li>
+						</ol>
+
+					</li>
+
+				</ol>
+
+				<p>
+					A <a>user agent</a> MUST listen for new Named WebSocket broadcasts from other agents on both the <a>local multicast address</a> and the <a>network multicast address</a> using standard [[!MDNS]] techniques.
+				</p>
+
+				<p>The <dfn>rule to obtain an advertised Named WebSocket service name</dfn> is as follows:
+
+				<ol class="rule">
+
+					<li>Let <var>service name</var> be the result of obtaining the service name component from the DNS PTR record.</li>
+
+					<li>Return <var>service name</var>.</li>
+
+				</ol>
+
+				<p>The <dfn>rule to obtain an advertised Named WebSocket service id</dfn> is as follows:
+
+				<ol class="rule">
+
+					<li>Let <var>service id</var> be the result of obtaining the service id component from the DNS PTR record.</li>
+
+					<li>Return <var>service id</var>.</li>
+
+				</ol>
+
+				<p>The <dfn>rule to obtain an advertised Named WebSocket service URL</dfn> is as follows:
+
+				<ol class="rule">
+
+					<li>Let <var>host</var> be the result of obtaining the host name component from the DNS SRV record.</li>
+
+					<li>Let <var>port</var> be the result of obtaining the port component from the DNS SRV record.</li>
+
+					<li>Let <var>path</var> be the result of parsing the DNS TXT record and obtaining the path parameter. If no DNS TXT record is provided or the path parameter is empty then let <var>path</var> be an empty string.</li>
+
+					<li>
+						Let <var>service URL</var> be the string &quot;<code>ws://</code>&quot;, followed by <var>host</var>, followed by &quot;<code>:</code>&quot;, followed by <var>port</var>, followed by <var>path</var>.
+					</li>
+
+					<li>Return <var>service URL</var>.</li>
+
+				</ol>
+
+			</section>
+
+			<section>
+				<h3>
+					Peer binding
+				</h3>
+
+				<p>The <a>user agent</a> MUST allow remote peers to establish WebSocket connections based on the services that it currently manages.</p>
+
+				<p>
+					When a new incoming WebSocket connection is established from a remote peer that has independently <a href="#peer-discovery">discovered a peer service running on the current user agent</a> then the <a>user agent</a> MUST run the following steps.
+				</p>
+
+				<ol class="rule">
+
+						<li>Let <var>server WebSocket</var> be a new <code>WebSocket</code> object representing the new incoming WebSocket connection.</li>
+
+						<li>Let <var>service name</var> be the <a>valid channel name</a> obtained from the URL used to establish <var>server WebSocket</var>.</li>
+
+						<li>Parse <var>local peer id</var> from the URL used to establish <var>server WebSocket</var>.</li>
+
+						<li>Parse <var>remote peer id</var> from the URL used to establish <var>server WebSocket</var>.</li>
+
+						<li>If <var>server WebSocket</var> was established via discovery from the <a>local multicast address</a> then let <var>active WebSocket connections</var> be the <a>list of active local WebSockets</a>. Otherwise, let <var>active WebSocket connections</var> be the <a>list of active network WebSockets</a>.
+
+						<li>
+							For each <var>active WebSocket</var> in the <var>active WebSocket connections</var> do the following:
+
+							<ol class="rule">
+
+								<li>If <var>service name</var> does not match the service name used to create <var>active WebSocket</var> then abort any remaining sub-steps and continue at the next available <var>active WebSocket</var>.</li>
+
+								<li>If a <a>remote peer id placeholder</a> (i.e. &quot;<code>%s</code>&quot;) is present in <var>service URL</var> then add the WebSocket connection object to the appropriate <a>broadcast list</a> against the resolved <var>service name</var> and abort any remaining steps.</li>
+
+								<li>If <var>active WebSocket</var>'s peer id does not match <var>local peer id</var> then abort any remaining sub-steps and continue at the next available <var>active WebSocket</var>.</li>
+
+								<li>
+									If <var>remote peer id</var> is already bound in <var>active WebSocket</var>'s <a>peer list</a> then abort any remaining steps.
+								</li>
+
+								<li>
+									Add <var>server WebSocket</var> to <var>active WebSocket</var>'s <a>peer list</a>.
+								</li>
+
+								<li>
+									Let <var>new peer connection event</var> be a simple event with the event type <code>connect</code>, a <code>target</code> of <var>server WebSocket</var>, which does not bubble, is not cancelable, and has no default action.
+								</li>
+
+								<li>
+									Fire <var>new peer connection event</var> at <var>active WebSocket</var>.
+								</li>
+							</ol>
+
+						</li>
+
+				</ol>
+
+			</section>
+
+		</section>
+
+		<section>
+			<h2>
+				Message routing
+			</h2>
+
+			<p>
+				When a new Named WebSocket is created via the <code>LocalWebSocket()</code> or <code>NetworkWebSocket()</code> constructors the resulting object MUST act as a broadcast channel toward all peer WebSocket connections contained in either the <a>local broadcast list</a> or the <a>network broadcast list</a>, as appropriate, that share the same <a>valid channel name</a>. Thus, if <code>send()</code> is called on a Named WebSocket object then the <a>user agent</a> MUST relay the sent message toward all matching broadcast WebSocket connections in the appropriate broadcast list. All broadcast WebSocket connections other than the sender MUST receive the sent message, by emitting a standard WebSocket <code>message</code> event against the broadcast WebSocket object (either a <code>LocalWebSocket</code> or <code>NetworkWebSocket</code> object).
+			</p>
+
+		</section>
+
+	</body>
+</html>
